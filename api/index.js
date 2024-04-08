@@ -23,7 +23,7 @@ const secret = 'asdfe45we45w345wegw345werjktjwertkj';
   
 }));*/
 
-const allowedOrigins = ['http://localhost:3000', 'https://postcraft.netlify.app', 'https://postcraft.netlify.app/'];
+/*const allowedOrigins = ['http://localhost:3000', 'https://postcraft.netlify.app', 'https://postcraft.netlify.app/'];
 
 app.use((req, res, next) => {
   const origin = req.headers.origin;
@@ -38,7 +38,8 @@ app.use((req, res, next) => {
   } else {
     next();
   }
-});
+});*/
+app.use(cors());//edit
 
 app.use(express.json());
 app.use(cookieParser());
@@ -139,37 +140,6 @@ app.post('/post', uploadMiddleware.single('file'), async (req,res) => {
 
 });
 
-/*app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
-  const { originalname, path } = req.file;
-  const parts = originalname.split('.');
-  const ext = parts[parts.length - 1].toLowerCase();
-  
-  // Check if file type is JPG or PNG
-  if (ext !== 'jpg' && ext !== 'png' && ext!=='webp' && ext!=='jpeg') {
-    fs.unlinkSync(path); // Delete the uploaded file
-    return res.status(400).json({ error: 'Please select an Image (Allowed file:{.jpg, .png, .webp}' });
-  }
-
-  const newPath = path + '.' + ext;
-  fs.renameSync(path, newPath);
-
-  const { token } = req.cookies;
-  jwt.verify(token, secret, {}, async (err, info) => {
-    if (err) throw err;
-    const { title, summary, content } = req.body;
-    const postDoc = await Post.create({
-      title,
-      summary,
-      content,
-      cover: newPath,
-      author: info.id,
-    });
-    res.json(postDoc);
-  });
-});*/
-
-
-
 app.put('/post/:id', uploadMiddleware.single('file'), async (req, res) => {//   /:id
   try {
     const id = req.params.id;
@@ -204,4 +174,8 @@ app.get('/post/:id', async (req, res) => {
   res.json(postDoc);
 })
 
-app.listen(4000,()=>console.log("server running on port 4000"));
+//app.listen(4000,()=>console.log("server running on port 4000"));
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
