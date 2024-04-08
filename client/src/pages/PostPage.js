@@ -9,7 +9,7 @@ export default function PostPage() {
   const { id } = useParams();
 
   useEffect(() => {
-    fetch(`http://localhost:4000/post/${id}`)
+    fetch(`https://postcraft-tl1k.onrender.com/post/${id}`)
       .then(response => {
         response.json().then(postInfo => {
           setPostInfo(postInfo);
@@ -21,7 +21,7 @@ export default function PostPage() {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/post/${id}`, {
+      const response = await fetch(`https://postcraft-tl1k.onrender.com/post/${id}`, {
         method: 'DELETE',
         credentials: 'include',
       });
@@ -56,7 +56,7 @@ export default function PostPage() {
         </div>
       )}
       <div className="image">
-        <img src={`http://localhost:4000/${postInfo.cover}`} alt=""/>
+        <img src={`https://postcraft-tl1k.onrender.com/${postInfo.cover}`} alt=""/>
       </div>
       <div className="content" dangerouslySetInnerHTML={{__html:postInfo.content}} />
     </div>
