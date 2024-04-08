@@ -19,8 +19,8 @@ const secret = 'asdfe45we45w345wegw345werjktjwertkj';
 
 app.use(cors({
   credentials: true,
-  //origin: ['http://localhost:3000', 'https://postcraft.netlify.app', 'https://postcraft.netlify.app/']
-  origin: '*'
+  origin: ['https://postcraft.netlify.app/']
+  
 }));
 
 app.use(express.json());
