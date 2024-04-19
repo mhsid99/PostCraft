@@ -17,11 +17,11 @@ const secret = 'asdfe45we45w345wegw345werjktjwertkj';
 
 //app.use(cors({credentials:true,origin:'http://localhost:3000'}));
 
-/*app.use(cors({
+app.use(cors({
   credentials: true,
   origin: ['https://postcraft.netlify.app/']
   
-}));*/
+}));
 
 /*const allowedOrigins = ['http://localhost:3000', 'https://postcraft.netlify.app', 'https://postcraft.netlify.app/'];
 
@@ -39,7 +39,7 @@ app.use((req, res, next) => {
     next();
   }
 });*/
-app.use(cors());//edit
+//app.use(cors());//edit
 
 app.use(express.json());
 app.use(cookieParser());
