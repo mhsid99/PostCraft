@@ -1,10 +1,11 @@
 import Post from "../Post";
 import {useEffect, useState} from "react";
+import { BACKEND_BASE_URL } from '../config';
 
 export default function IndexPage() {
   const [posts,setPosts] = useState([]);
   useEffect(() => {
-    fetch('https://postcraft-tl1k.onrender.com/post').then(response => {
+    fetch(`${BACKEND_BASE_URL}/post`).then(response => {
       response.json().then(posts => {
         setPosts(posts);
       });

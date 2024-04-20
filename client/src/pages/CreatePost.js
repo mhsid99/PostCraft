@@ -1,4 +1,4 @@
-import ReactQuill from "react-quill";
+import {BACKEND_BASE_URL } from '../config';
 import 'react-quill/dist/quill.snow.css';
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
@@ -33,7 +33,7 @@ export default function CreatePost() {
     data.set('content', content);
     data.set('file', files[0]);
 
-    const response = await fetch('https://postcraft-tl1k.onrender.com/post/', {
+    const response = await fetch(`${BACKEND_BASE_URL}/post/`, {
       method: 'POST',
       body: data,
       credentials: 'include',

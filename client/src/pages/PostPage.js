@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { formatISO9075 } from "date-fns";
 import { UserContext } from "../UserContext";
+import {BACKEND_BASE_URL} from '../config';
 
 export default function PostPage() {
   const [postInfo, setPostInfo] = useState(null);
@@ -9,7 +10,7 @@ export default function PostPage() {
   const { id } = useParams();
 
   useEffect(() => {
-    fetch(`https://postcraft-tl1k.onrender.com/post/${id}`)
+    fetch(`${BACKEND_BASE_URL}/post/${id}`)
       .then(response => {
         response.json().then(postInfo => {
           setPostInfo(postInfo);
@@ -21,7 +22,7 @@ export default function PostPage() {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`https://postcraft-tl1k.onrender.com/post/${id}`, {
+      const response = await fetch(`${BACKEND_BASE_URL}/post/${id}`, {
         method: 'DELETE',
         credentials: 'include',
       });
@@ -56,7 +57,7 @@ export default function PostPage() {
         </div>
       )}
       <div className="image">
-        <img src={`https://postcraft-tl1k.onrender.com/${postInfo.cover}`} alt=""/>
+        <img src={`${BACKEND_BASE_URL}/${postInfo.cover}`} alt=""/>
       </div>
       <div className="content" dangerouslySetInnerHTML={{__html:postInfo.content}} />
     </div>

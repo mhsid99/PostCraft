@@ -10,17 +10,17 @@ const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const uploadMiddleware = multer({ dest: 'uploads/' });
 const fs = require('fs');
-require('dotenv').config(); // Load environment variables
-
 const salt = bcrypt.genSaltSync(10);
 const secret = 'asdfe45we45w345wegw345werjktjwertkj';
+//const baseurl = 'http://localhost:3000';
+const baseurl = 'https://postcraft.netlify.app';
+require('dotenv').config(); // Load environment variables
 
 //app.use(cors({credentials:true,origin:'http://localhost:3000'}));
 
 app.use(cors({
   credentials: true,
-  origin: ['https://postcraft.netlify.app/']
-  
+  origin: baseurl
 }));
 
 /*const allowedOrigins = ['http://localhost:3000', 'https://postcraft.netlify.app', 'https://postcraft.netlify.app/'];
@@ -39,6 +39,7 @@ app.use((req, res, next) => {
     next();
   }
 });*/
+
 //app.use(cors());//edit
 
 app.use(express.json());
@@ -50,6 +51,10 @@ mongoose.connection.on('connected', () => {
   console.log('Connected to MongoDB');
 });
 
+//_________________________________________setting up middlewares, defining required files and connecting the database____________
+//_________________________________________defining all the endpoints from here on________________________________________
+
+//registering the user
 app.post('/register', async (req,res) => {
   const {username,password} = req.body;
   try{
@@ -64,6 +69,7 @@ app.post('/register', async (req,res) => {
   }
 });
 
+//logging the user
 app.post('/login', async (req,res) => {
   const {username,password} = req.body;
   const userDoc = await User.findOne({username});
@@ -104,7 +110,7 @@ app.delete('/post/:id', async (req, res) => {
   }
 });
 
-
+//get the logged in user info
 app.get('/profile', (req,res) => {
   const {token} = req.cookies;
   jwt.verify(token, secret, {}, (err,info) => {
@@ -113,10 +119,12 @@ app.get('/profile', (req,res) => {
   });
 });
 
+//logging the user out
 app.post('/logout', (req,res) => {
   res.cookie('token', '').json('ok');
 });
 
+//creation of a post at 'CreatePost page'
 app.post('/post', uploadMiddleware.single('file'), async (req,res) => {
   const {originalname,path} = req.file;
   const parts = originalname.split('.');
@@ -140,6 +148,7 @@ app.post('/post', uploadMiddleware.single('file'), async (req,res) => {
 
 });
 
+//editing the post, called at 'EditPost' page
 app.put('/post/:id', uploadMiddleware.single('file'), async (req, res) => {//   /:id
   try {
     const id = req.params.id;
@@ -159,6 +168,7 @@ app.put('/post/:id', uploadMiddleware.single('file'), async (req, res) => {//   
   }
 });
 
+//called at 'IndexPage' page for displaying all the blogs
 app.get('/post', async (req,res) => {
   res.json(
     await Post.find()
@@ -168,14 +178,16 @@ app.get('/post', async (req,res) => {
   );
 });
 
+//fetching the post of the user at 'EditPage' page
 app.get('/post/:id', async (req, res) => {
   const {id} = req.params;
   const postDoc = await Post.findById(id).populate('author', ['username']);
   res.json(postDoc);
-})
+});
 
-//app.listen(4000,()=>console.log("server running on port 4000"));
-const PORT = process.env.PORT || 4000;
+app.listen(4000,()=>console.log("server running on port 4000"));
+
+/*const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-});
+});*/

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import Editor from "../Editor";
+import {FRONTEND_BASE_URL,BACKEND_BASE_URL } from '../config';
 
 const EditPost = () => {
   const { id } = useParams();
@@ -12,7 +13,7 @@ const EditPost = () => {
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
-    fetch(`https://postcraft-tl1k.onrender.com/post/${id}`)
+    fetch(`${BACKEND_BASE_URL}/post/${id}`)
       .then(response => response.json())
       .then(postInfo => {
         setTitle(postInfo.title);
@@ -33,7 +34,7 @@ const EditPost = () => {
       if (files?.[0]) {
         data.set('file', files?.[0]);
       }
-      const response = await fetch(`https://postcraft-tl1k.onrender.com/post/${id}`, {
+      const response = await fetch(`${BACKEND_BASE_URL}/post/${id}`, {
         method: 'PUT',
         body: data,
         credentials: 'include',
@@ -54,13 +55,13 @@ const EditPost = () => {
 
   const deletePost = async () => {
     try {
-      const response = await fetch(`https://postcraft-tl1k.onrender.com/post/${id}`, {
+      const response = await fetch(`${BACKEND_BASE_URL}/post/${id}`, {
         method: 'DELETE',
         credentials: 'include',
       });
       if (response.ok) {
         // Redirect to home page after successful deletion
-        window.location.href = 'http://localhost:3000/'; // Navigate to home page
+        window.location.href = `${FRONTEND_BASE_URL}`; // Navigate to home page
       } else {
         console.error('Failed to delete post:', response.statusText);
       }

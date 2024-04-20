@@ -2,11 +2,12 @@ import { Link } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
 import { FaHome } from "react-icons/fa";
+import { FRONTEND_BASE_URL, BACKEND_BASE_URL } from './config';
 
 export default function Header() {
   const { setUserInfo, userInfo } = useContext(UserContext);
   useEffect(() => {
-    fetch("https://postcraft-tl1k.onrender.com/profile", {
+    fetch(`${BACKEND_BASE_URL}/profile`, {
       credentials: "include",
     }).then((response) => {
       response.json().then((userInfo) => {
@@ -16,7 +17,7 @@ export default function Header() {
   }, []);
 
   function logout() {
-    fetch("https://postcraft-tl1k.onrender.com/logout", {
+    fetch(`${BACKEND_BASE_URL}/logout`, {
       credentials: "include",
       method: "POST",
     });
