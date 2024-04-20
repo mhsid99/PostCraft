@@ -13,7 +13,7 @@ const fs = require('fs');
 const salt = bcrypt.genSaltSync(10);
 const secret = 'asdfe45we45w345wegw345werjktjwertkj';
 //const baseurl = 'http://localhost:3000';
-const baseurl = 'https://postcraft.netlify.app';
+const baseurl = 'https://postcraft.netlify.app/';
 require('dotenv').config(); // Load environment variables
 
 //app.use(cors({credentials:true,origin:'http://localhost:3000'}));
